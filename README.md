@@ -2,6 +2,8 @@
 selenium kullanarak gmail hesabı ile hedef mail adresine e postalar gönderir spam bot kodudur. 20.08.2023 güncellenmiştir beta versiyondadır sorun öneri için lütfen iletişime geçin
 bunları yapmanız gerek! (Pycharm kullanmanızı şiddetle öneriyorum):
 
+(gönderilecek spam mail içeriğini kodda ayarlayabilirsiniz. adet ise 25 varsayılan olarak ayarladım artırmak veya azaltmak isterseniz Pycharm kullanarak yapabilirsiniz)
+
 Python Kurulumu: Eğer bilgisayarınızda Python kurulu değilse, Python'ın resmi web sitesinden indirip kurun.
 
 Selenium Kütüphanesinin Kurulumu: Python kurulumunu tamamladıktan sonra, komut satırını veya terminali açın ve aşağıdaki komutu çalıştırarak Selenium kütüphanesini kurun:
