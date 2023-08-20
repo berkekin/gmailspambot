@@ -1,0 +1,74 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+def send_gmail_email(browser, recipient, subject, content):
+    try:
+        # Yeni e-posta oluşturma butonuna tıkla
+        new_email_button = WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '.T-I.T-I-KE.L3'))
+        )
+        new_email_button.click()
+
+        # Alıcı e-posta adresini gir
+        to_field = WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.NAME, 'to'))
+        )
+        to_field.send_keys(recipient)
+
+        # Konuyu gir
+        subject_field = browser.find_element_by_name('subjectbox')
+        subject_field.send_keys(subject)
+
+        # İçeriği gir
+        content_field = browser.find_element_by_css_selector('.Am.Al.editable.LW-avf.tS-tW')
+        content_field.send_keys(content)
+
+        # E-postayı gönder
+        send_button = browser.find_element_by_css_selector('.T-I.J-J5-Ji.aoO.v7.T-I-atl.L3')
+        send_button.click()
+        return True
+    except Exception as e:
+        print(f"E-posta gönderilirken hata: {str(e)}")
+        return False
+
+# Tarayıcı ayarları
+browser = webdriver.Chrome()
+
+# Web sitesine giriş
+browser.get('https://mail.google.com/')
+
+# E-posta ve şifre bilgileriniz
+email = 'YOUR_GMAIL@gmail.com'
+password = 'YOUR_PASSWORD'
+
+try:
+    # E-posta girişi
+    email_elem = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.ID, 'identifierId'))
+    )
+    email_elem.send_keys(email)
+    email_elem.send_keys(Keys.RETURN)
+
+    # Şifre girişi
+    password_elem = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located((By.NAME, 'password'))
+    )
+    password_elem.send_keys(password)
+    password_elem.send_keys(Keys.RETURN)
+
+    # 25 e-posta gönder
+    for i in range(25):
+        if send_gmail_email(browser, 'hedef_email@domain.com', 'Bülten Başlığı', 'Bülten içeriği...'):
+            print(f"{i+1}. e-posta başarıyla gönderildi!")
+        else:
+            print(f"{i+1}. e-posta gönderilirken hata oluştu.")
+
+except Exception as e:
+    print(f"Genel hata: {str(e)}")
+
+finally:
+    # Tarayıcıyı kapat
+    browser.quit()
